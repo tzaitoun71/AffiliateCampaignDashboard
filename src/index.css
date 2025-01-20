@@ -7,9 +7,17 @@
 /* Global Styles */
 body {
   font-family: 'Nunito', sans-serif;
-  @apply bg-white text-gray-900;
+  @apply text-gray-900;
+  
+  /* Light Blue Gradient Background */
+  background: linear-gradient(to bottom, #F3F9FF, #E3F1FF);
 }
-
+  
 h1, h2, h3, h4, h5, h6 {
   @apply font-semibold tracking-tight;
+}
+
+/* Add soft box shadows for a modern look */
+.shadow-modern {
+  @apply shadow-md hover:shadow-lg transition-shadow duration-300;
 }
