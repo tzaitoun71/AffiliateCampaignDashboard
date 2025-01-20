@@ -1,11 +1,12 @@
 import './App.css'
+import ProductList from './components/ProductList'
 
 function App() {
 
   return (
-    <>
-    <div className='text-blue-600'>Hello</div>
-    </>
+    <div className='min-h-screen bg-gray-100 flex justify-center items-center'>
+      <ProductList />
+    </div>
   )
 }
 
