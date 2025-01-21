@@ -21,24 +21,13 @@ export const fetchProducts = async () => {
 };
 
 // Fetch single product by ID
-export const fetchProductById = async (id: number) => {
+export const fetchProductById = async (id: string) => {
     try {
         const response = await api.get(`/products/${id}`);
         return response.data;
     } catch (error) {
         console.error(`Error fetching product ${id}:`, error);
         return null;
-    }
-}
-
-// Fetch product categories
-export const fetchCategories = async () => {
-    try {
-        const response = await api.get("/products/categories");
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching categories:", error);
-        return [];
     }
 }
 

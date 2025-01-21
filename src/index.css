@@ -8,9 +8,6 @@
 body {
   font-family: 'Nunito', sans-serif;
   @apply text-gray-900;
-  
-  /* Light Blue Gradient Background */
-  background: linear-gradient(to bottom, #F3F9FF, #E3F1FF);
 }
   
 h1, h2, h3, h4, h5, h6 {
