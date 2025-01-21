@@ -1,16 +1,30 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Product } from "../types/Product";
+import { fetchProductsByCategory } from "../api/api";
 
-const useCategoryFilter = (products: Product[]) => {
+const useCategoryFilter = (allProducts: Product[]) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
 
-  const categories = useMemo(() => {
-    return Array.from(new Set(products.map((p) => p.category)));
-  }, [products]);
+  useEffect(() => {
+    const uniqueCategories = Array.from(
+      new Set(allProducts.map((product) => product.category))
+    );
+    setCategories(uniqueCategories);
+  }, [allProducts]);
 
-  const filteredProducts = useMemo(() => {
-    return selectedCategory ? products.filter((p) => p.category === selectedCategory) : products;
-  }, [products, selectedCategory]);
+  useEffect(() => {
+    const fetchFilteredProducts = async () => {
+      if (!selectedCategory) {
+        setFilteredProducts(allProducts);
+      } else {
+        const products = await fetchProductsByCategory(selectedCategory);
+        setFilteredProducts(products);
+      }
+    };
+    fetchFilteredProducts();
+  }, [selectedCategory, allProducts]);
 
   return { selectedCategory, setSelectedCategory, filteredProducts, categories };
 };
