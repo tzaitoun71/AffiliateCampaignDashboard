@@ -1,27 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Product } from "../types/Product";
 
+type SortKey = "price" | "rating";
+type SortOrder = "asc" | "desc";
+
 const useSorting = (products: Product[]) => {
-  const [sortedProducts, setSortedProducts] = useState<Product[]>([]);
-  const [sortOption, setSortOption] = useState<string>("");
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
 
-  useEffect(() => {
-    const sorted = [...products];
+  const sortedProducts = useMemo(() => {
+    return [...products].sort((a, b) => {
+      if (!sortKey) return 0;
+      const aValue = sortKey === "rating" ? a.rating.rate : a[sortKey];
+      const bValue = sortKey === "rating" ? b.rating.rate : b[sortKey];
 
-    if (sortOption === "price-asc") {
-      sorted.sort((a, b) => a.price - b.price);
-    } else if (sortOption === "price-desc") {
-      sorted.sort((a, b) => b.price - a.price);
-    } else if (sortOption === "rating-high") {
-      sorted.sort((a, b) => b.rating.rate - a.rating.rate);
-    } else if (sortOption === "rating-low") {
-      sorted.sort((a, b) => a.rating.rate - b.rating.rate);
-    }
+      return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
+    });
+  }, [products, sortKey, sortOrder]);
 
-    setSortedProducts(sorted);
-  }, [sortOption, products]);
+  const toggleSort = (key: SortKey, order?: SortOrder) => {
+    setSortKey(key);
+    setSortOrder(order || (sortOrder === "asc" ? "desc" : "asc"));
+  };
 
-  return { sortedProducts, sortOption, setSortOption };
+  return { sortedProducts, sortKey, sortOrder, toggleSort };
 };
 
 export default useSorting;
