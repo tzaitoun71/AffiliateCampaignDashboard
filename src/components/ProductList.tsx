@@ -10,6 +10,8 @@ const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 5; // Set number of products per page
 
   const navigate = useNavigate();
 
@@ -39,10 +41,19 @@ const ProductList = () => {
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Reset to first page when category or search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, searchQuery]);
+
+  // Pagination Logic
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedProducts = searchedProducts.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(searchedProducts.length / itemsPerPage);
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-300 via-blue-100 to-white p-12">
       <div className="w-[90%] max-w-[1800px] bg-white shadow-2xl rounded-2xl p-8 transition-all duration-300">
-        
         {/* Search and Filters Row */}
         <div className="flex items-center space-x-4 mb-8">
           {/* Search Bar */}
@@ -103,7 +114,7 @@ const ProductList = () => {
                 </tr>
               </thead>
               <tbody>
-                {searchedProducts.map((product, index) => (
+                {paginatedProducts.map((product, index) => (
                   <tr
                     key={product.id}
                     className={`border-t transition-all duration-200 ${
@@ -129,29 +140,43 @@ const ProductList = () => {
                     <td className="p-5 text-gray-900 font-semibold text-lg text-center">
                       ${product.price.toFixed(2)}
                     </td>
-                    <td className="p-5 text-yellow-500 font-medium text-lg text-center">
-                      <div className="flex items-center justify-center space-x-2">
-                        {/* Rating number */}
-                        <span className="text-gray-800 font-semibold">{product.rating.rate.toFixed(1)}</span>
-                        {/* Stars */}
-                        <div className="flex space-x-1">
-                          {Array.from({ length: 5 }, (_, i) => (
-                            <StarIcon
-                              key={i}
-                              className={`h-5 w-5 ${
-                                i < Math.round(product.rating.rate) ? "text-yellow-400" : "text-gray-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        {/* Review count */}
-                        <span className="text-gray-500 text-sm">({product.rating.count})</span>
+                    <td className="p-5 text-yellow-500 font-medium text-lg text-center flex items-center justify-center space-x-2">
+                      <span className="text-gray-800">{product.rating.rate.toFixed(1)}</span>
+                      <div className="flex space-x-1">
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <StarIcon
+                            key={i}
+                            className={`h-5 w-5 ${
+                              i < Math.round(product.rating.rate) ? "text-yellow-400" : "text-gray-300"
+                            }`}
+                          />
+                        ))}
                       </div>
+                      <span className="text-gray-500 text-md">({product.rating.count} reviews)</span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {/* Pagination Controls*/}
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-6 space-x-2">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => setCurrentPage(index + 1)}
+                className={`px-4 py-2 rounded-lg shadow-md text-lg ${
+                  currentPage === index + 1
+                    ? "bg-blue-600 text-white font-semibold"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
           </div>
         )}
       </div>
