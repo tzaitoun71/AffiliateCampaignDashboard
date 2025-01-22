@@ -40,6 +40,22 @@ The **Affiliate Campaign Dashboard** is a web application that enables brands to
 
 ---
 
+## Tech Stack  
+
+- **Frontend:** React, TypeScript  
+- **Styling:** Tailwind CSS  
+- **State Management:** `useState`, `useEffect`, Custom Hooks  
+- **API:** Fake Store API (`https://fakestoreapi.com`)  
+- **Deployment:** Vercel  
+
+---
+
+## Live Application  
+
+**Website:** [Affiliate Campaign Dashboard](https://affiliate-campaign-dashboard.vercel.app/)  
+
+---
+
 ## Setup Instructions
 
 1. Clone the repository:  
