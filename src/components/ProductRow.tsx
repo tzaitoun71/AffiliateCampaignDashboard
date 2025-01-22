@@ -1,5 +1,5 @@
 import { StarIcon } from "@heroicons/react/24/solid";
-import { Product } from "../types/product";
+import { Product } from "../types/Product";
 
 interface ProductRowProps {
   product: Product;

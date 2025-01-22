@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts } from "../services/api";
-import { Product } from "../types/product";
+import { Product } from "../types/Product";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import useCategoryFilter from "../hooks/useCategoryFilter";
 import useSorting from "../hooks/useSorting";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchProductById } from "../services/api";
-import { Product } from "../types/product";
+import { Product } from "../types/Product";
 import { StarIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 const ProductDetail = () => {

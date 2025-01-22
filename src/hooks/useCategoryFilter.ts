@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Product } from "../types/product";
+import { Product } from "../types/Product";
 import { fetchProductsByCategory } from "../services/api";
 
 const useCategoryFilter = (allProducts: Product[]) => {

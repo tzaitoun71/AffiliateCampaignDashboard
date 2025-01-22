@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Product } from "../types/product";
+import { Product } from "../types/Product";
 
 type SortKey = "price" | "rating";
 type SortOrder = "asc" | "desc";
