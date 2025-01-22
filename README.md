@@ -1,50 +1,58 @@
-# React + TypeScript + Vite
+# Affiliate Campaign Dashboard  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview  
+The **Affiliate Campaign Dashboard** is a web application that enables brands to track the performance of their affiliate campaigns by fetching and displaying product data from the **Fake Store API**. The dashboard includes features such as sorting, filtering, pagination, commission calculations, and a detailed product view to enhance user experience.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features  
 
-## Expanding the ESLint configuration
+### Product Listing  
+- Displays products in a structured **table format** with columns for **Name, Category, Price, and Rating**.  
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Sorting  
+- Allows users to sort products by **Price (ascending/descending)** and **Rating** for easy comparison.  
 
-- Configure the top-level `parserOptions` property like this:
+### Category Filtering  
+- Provides a dropdown to **filter products by category** for more targeted browsing.  
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Search Bar  
+- Users can search for products by **name** to quickly find relevant items.  
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Detailed Product View  
+- Clicking on a product row opens a **detailed product view** with additional information.  
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Responsive Design  
+- The UI is **fully mobile-friendly**, ensuring a seamless experience across different screen sizes.  
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+---
+
+## Bonus Features  
+
+### Pagination  
+- Implements **pagination** to handle large datasets efficiently and improve performance.  
+
+### Commission Calculation  
+- Displays a **commission metric** calculated as **10% of the product price** to provide additional insights.  
+
+### Deployment  
+- The project is **deployed on Vercel**, making it accessible online for demonstration and testing.  
+
+---
+
+## Setup Instructions
+
+1. Clone the repository:  
+   `git clone https://github.com/tzaitoun71/AffiliateCampaignDashboard.git`
+
+2. Navigate to the project directory:  
+   `cd AffiliateCampaignDashboard`
+
+3. Install dependencies:  
+   `npm install`
+
+4. Start the development server:  
+   `npm run dev`
+
+5. Open your browser and visit:  
+   `http://localhost:5174`
