@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Product } from "../types/product";
-import { fetchProductsByCategory } from "../api/api";
+import { fetchProductsByCategory } from "../services/api";
 
 const useCategoryFilter = (allProducts: Product[]) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");

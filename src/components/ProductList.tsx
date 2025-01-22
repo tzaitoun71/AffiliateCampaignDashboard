@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchProducts } from "../api/api";
+import { fetchProducts } from "../services/api";
 import { Product } from "../types/product";
-import { MagnifyingGlassIcon, StarIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import useCategoryFilter from "../hooks/useCategoryFilter";
 import useSorting from "../hooks/useSorting";
+import ProductRow from "./ProductRow";
+import Pagination from "./Pagination";
+
+const itemsPerPage = 5; // Number of products per page
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 5; // Set number of products per page
 
   const navigate = useNavigate();
 
@@ -30,11 +33,16 @@ const ProductList = () => {
   }, []);
 
   // Use Category Filter Hook
-  const { selectedCategory, setSelectedCategory, filteredProducts, categories } =
-    useCategoryFilter(products);
+  const {
+    selectedCategory,
+    setSelectedCategory,
+    filteredProducts,
+    categories,
+  } = useCategoryFilter(products);
 
   // Use Sorting Hook
-  const { sortedProducts, sortKey, sortOrder, toggleSort } = useSorting(filteredProducts);
+  const { sortedProducts, sortKey, sortOrder, toggleSort } =
+    useSorting(filteredProducts);
 
   // Filter by Search Query
   const searchedProducts = sortedProducts.filter((product) =>
@@ -48,7 +56,10 @@ const ProductList = () => {
 
   // Pagination Logic
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedProducts = searchedProducts.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedProducts = searchedProducts.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
   const totalPages = Math.ceil(searchedProducts.length / itemsPerPage);
 
   return (
@@ -82,7 +93,7 @@ const ProductList = () => {
             ))}
           </select>
 
-          {/* Sorting Dropdown for Price & Rating */}
+          {/* Sorting Dropdown */}
           <select
             className="px-4 py-3 text-lg border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300 hover:shadow-lg"
             value={`${sortKey}-${sortOrder}`}
@@ -101,7 +112,9 @@ const ProductList = () => {
 
         {/* Product List */}
         {loading ? (
-          <p className="text-center text-gray-500 text-lg">Loading products...</p>
+          <p className="text-center text-gray-500 text-lg">
+            Loading products...
+          </p>
         ) : (
           <div className="overflow-hidden">
             <table className="w-full border-collapse shadow-lg rounded-lg overflow-hidden">
@@ -114,72 +127,25 @@ const ProductList = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedProducts.map((product, index) => (
-                  <tr
+                {paginatedProducts.map((product) => (
+                  <ProductRow
                     key={product.id}
-                    className={`border-t transition-all duration-200 ${
-                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                    } hover:shadow-md hover:bg-blue-100 cursor-pointer`}
+                    product={product}
                     onClick={() => navigate(`/product/${product.id}`)}
-                  >
-                    <td className="p-5 flex items-center space-x-6 text-left">
-                      <div className="bg-white p-3 rounded-lg shadow-lg">
-                        <img
-                          src={product.image}
-                          alt={product.title}
-                          className="w-20 h-20 object-contain"
-                        />
-                      </div>
-                      <span className="text-gray-900 font-semibold text-lg">{product.title}</span>
-                    </td>
-                    <td className="p-5 w-[250px] text-center">
-                      <span className="px-4 py-2 text-md font-semibold rounded-full bg-blue-200 text-blue-900 whitespace-nowrap shadow-md">
-                        {product.category}
-                      </span>
-                    </td>
-                    <td className="p-5 text-gray-900 font-semibold text-lg text-center">
-                      ${product.price.toFixed(2)}
-                    </td>
-                    <td className="p-5 text-center">
-                      <div className="flex items-center justify-center space-x-2">
-                        <span className="text-gray-800 font-semibold">{product.rating.rate.toFixed(1)}</span>
-                        <div className="flex space-x-1">
-                          {Array.from({ length: 5 }, (_, i) => (
-                            <StarIcon
-                              key={i}
-                              className={`h-5 w-5 ${
-                                i < Math.round(product.rating.rate) ? "text-yellow-400" : "text-gray-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <span className="text-gray-500 text-md">({product.rating.count} reviews)</span>
-                      </div>
-                    </td>
-                  </tr>
+                  />
                 ))}
               </tbody>
             </table>
           </div>
         )}
 
-        {/* Pagination Controls*/}
+        {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="flex justify-center mt-6 space-x-2">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => setCurrentPage(index + 1)}
-                className={`px-4 py-2 rounded-lg shadow-md text-lg ${
-                  currentPage === index + 1
-                    ? "bg-blue-600 text-white font-semibold"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
         )}
       </div>
     </div>
