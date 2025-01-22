@@ -7,7 +7,7 @@
 /* Global Styles */
 body {
   font-family: 'Nunito', sans-serif;
-  @apply text-gray-900;
+  @apply text-gray-900 bg-gradient-to-br from-blue-300 via-blue-100 to-white min-h-screen;
 }
   
 h1, h2, h3, h4, h5, h6 {

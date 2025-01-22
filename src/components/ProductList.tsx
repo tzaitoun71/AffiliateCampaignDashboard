@@ -63,12 +63,12 @@ const ProductList = () => {
   const totalPages = Math.ceil(searchedProducts.length / itemsPerPage);
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-300 via-blue-100 to-white p-12">
-      <div className="w-[90%] max-w-[1800px] bg-white shadow-2xl rounded-2xl p-8 transition-all duration-300">
+    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-300 via-blue-100 to-white p-6 md:p-12">
+      <div className="w-full max-w-[1800px] bg-white shadow-2xl rounded-2xl p-6 md:p-8 transition-all duration-300">
         {/* Search and Filters Row */}
-        <div className="flex items-center space-x-4 mb-8">
+        <div className="flex flex-col md:flex-row items-center md:space-x-4 mb-6">
           {/* Search Bar */}
-          <div className="w-[400px] relative">
+          <div className="w-full md:w-[400px] relative mb-4 md:mb-0">
             <MagnifyingGlassIcon className="absolute left-4 top-3 h-6 w-6 text-gray-400" />
             <input
               type="text"
@@ -81,7 +81,7 @@ const ProductList = () => {
 
           {/* Category Filter */}
           <select
-            className="px-4 py-3 text-lg border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300 hover:shadow-lg"
+            className="w-full md:w-auto px-4 py-3 text-lg border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300 hover:shadow-lg"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
@@ -95,7 +95,7 @@ const ProductList = () => {
 
           {/* Sorting Dropdown */}
           <select
-            className="px-4 py-3 text-lg border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300 hover:shadow-lg"
+            className="w-full md:w-auto px-4 py-3 text-lg border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300 hover:shadow-lg"
             value={`${sortKey}-${sortOrder}`}
             onChange={(e) => {
               const [key, order] = e.target.value.split("-");
@@ -112,31 +112,43 @@ const ProductList = () => {
 
         {/* Product List */}
         {loading ? (
-          <p className="text-center text-gray-500 text-lg">
-            Loading products...
-          </p>
+          <p className="text-center text-gray-500 text-lg">Loading products...</p>
         ) : (
-          <div className="overflow-hidden">
-            <table className="w-full border-collapse shadow-lg rounded-lg overflow-hidden">
-              <thead>
-                <tr className="bg-blue-700 text-white text-center text-lg uppercase rounded-t-lg">
-                  <th className="p-5 w-[600px] text-left">Product</th>
-                  <th className="p-5 w-[250px]">Category</th>
-                  <th className="p-5 w-[200px]">Price</th>
-                  <th className="p-5 w-[250px]">Rating</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedProducts.map((product) => (
-                  <ProductRow
-                    key={product.id}
-                    product={product}
-                    onClick={() => navigate(`/product/${product.id}`)}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-hidden">
+              <table className="w-full border-collapse shadow-lg rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-blue-700 text-white text-center text-lg uppercase rounded-t-lg">
+                    <th className="p-5 w-[600px] text-left">Product</th>
+                    <th className="p-5 w-[250px]">Category</th>
+                    <th className="p-5 w-[200px]">Price</th>
+                    <th className="p-5 w-[250px]">Rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedProducts.map((product) => (
+                    <ProductRow
+                      key={product.id}
+                      product={product}
+                      onClick={() => navigate(`/product/${product.id}`)}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden flex flex-col gap-4">
+              {paginatedProducts.map((product) => (
+                <ProductRow
+                  key={product.id}
+                  product={product}
+                  onClick={() => navigate(`/product/${product.id}`)}
+                />
+              ))}
+            </div>
+          </>
         )}
 
         {/* Pagination Controls */}
