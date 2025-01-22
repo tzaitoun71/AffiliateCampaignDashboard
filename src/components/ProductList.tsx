@@ -140,19 +140,21 @@ const ProductList = () => {
                     <td className="p-5 text-gray-900 font-semibold text-lg text-center">
                       ${product.price.toFixed(2)}
                     </td>
-                    <td className="p-5 text-yellow-500 font-medium text-lg text-center flex items-center justify-center space-x-2">
-                      <span className="text-gray-800">{product.rating.rate.toFixed(1)}</span>
-                      <div className="flex space-x-1">
-                        {Array.from({ length: 5 }, (_, i) => (
-                          <StarIcon
-                            key={i}
-                            className={`h-5 w-5 ${
-                              i < Math.round(product.rating.rate) ? "text-yellow-400" : "text-gray-300"
-                            }`}
-                          />
-                        ))}
+                    <td className="p-5 text-center">
+                      <div className="flex items-center justify-center space-x-2">
+                        <span className="text-gray-800 font-semibold">{product.rating.rate.toFixed(1)}</span>
+                        <div className="flex space-x-1">
+                          {Array.from({ length: 5 }, (_, i) => (
+                            <StarIcon
+                              key={i}
+                              className={`h-5 w-5 ${
+                                i < Math.round(product.rating.rate) ? "text-yellow-400" : "text-gray-300"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-gray-500 text-md">({product.rating.count} reviews)</span>
                       </div>
-                      <span className="text-gray-500 text-md">({product.rating.count} reviews)</span>
                     </td>
                   </tr>
                 ))}
