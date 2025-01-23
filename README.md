@@ -71,4 +71,4 @@ The **Affiliate Campaign Dashboard** is a web application that enables brands to
    `npm run dev`
 
 5. Open your browser and visit:  
-   `http://localhost:5174`
+   `http://localhost:5173`
